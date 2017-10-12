@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Dashboard</h1>
+    <hr>
+    <p>Welcome...<b>{{ session.username }}</b></p>
+    <p>You are in the dashboard</p>
+    <p>{{quotes}}</p>
+  <button type="button" id="theButton" class="btn btn-default btn-lg" onclick="myShow()">Show Raw Data</button>
+  <p></p>
+  <div id="_quotes" style="display:none">
+  {% for q in quotes %}
+    <li class="list-group-item">-- > {{q.title}} - {{q.id}} - {{q.painter}} - {{q.body}}</li>
+  {% endfor %}
+  </div>
+
+<script>
+function myShow() {
+    var x = document.getElementById('_quotes');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+    var b = document.getElementById('theButton');
+    if(b.innerText == "Show Raw Data")
+      { b.innerText = "Hide Data"; }
+     else
+      { b.innerText = "Show Raw Data"; }
+ }
+</script>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h1>Quotes</h1>
+<ul class="list-group">
+  {% for q in quotes %}
+  <li class="list-group-item"><a href="quote/{{q.id}}&{{q.painter}}&{{q.body}}">{{q.title}}</a></li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

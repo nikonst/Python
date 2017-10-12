@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>A Flask App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+  .jumbotron {background-color:Lavender ;}
+  .navbar {background-color:LightSteelBlue;}
+ </style>
+</head>
+
+<body>
+{% include 'includes/_navbar.html' %}
+<div class="container">
+{% include 'includes/_messages.html' %}
+    {% block body %}
+
+    {% endblock %}
+</div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
