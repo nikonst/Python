@@ -1,0 +1,21 @@
+C:\Python27\python.exe C:/Users/emeis/PycharmProjects/dbAccess/dbAccess.py
+Connected...
+------------
+Title                          Price      Author              
+
+Cast Iron                      23         Peter      May                 
+Knots And Crosses              11         Ian        Rankin              
+Nemesis                        14         Jo         Nesbo               
+Rather Be the Devil            12         Ian        Rankin              
+Slow Horses                    12         Mick       Herron              
+Stalker                        23         Lars       Kepler              
+The Bat                        15         Jo         Nesbo               
+The Couple Next Door           14         Shari      Lapena              
+The Dry                        12         Jane       Harper              
+The Hypnotist                  11         Lars       Kepler              
+The Nightmare                  17         Lars       Kepler              
+The Redbreast                  12         Jo         Nesbo               
+-----
+Done!
+
+Process finished with exit code 0
