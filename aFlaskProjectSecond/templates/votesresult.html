@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+{% include 'navigation.html' %}
+<hr>
+<p>The Godfather I: {{gf1}} votes.</p>
+<p>The Godfather II:{{gf2}} votes.</p>
+<p>The Godfather III:{{gf3}} votes.</p>
+<hr>
+
+<div id="cont">
+</div>
+<script language = "JavaScript">
+       function drawChart() {
+            // Define the chart to be drawn.
+            var data = google.visualization.arrayToDataTable([
+               ['Votes', 'Number of Votes'],
+               ['The Godfather I', {{gf1}}],
+               ['The Godfather II', {{gf2}}],
+               ['The Godfather III', {{gf3}}]
+            ]);
+
+            var options = {title: 'Votes'};
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.BarChart(document.getElementById('cont'));
+            chart.draw(data, options);
+         }
+         google.charts.setOnLoadCallback(drawChart);
+      </script>
+{% endblock %}

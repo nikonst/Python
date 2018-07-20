@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+{% include 'navigation.html' %}
+ <form method="POST" action="">
+     <p>Vote for your Favourite Godfather Movie:</p>
+     <hr>
+     <p>{{ form.vote }}</p>
+     <hr>
+     <p><input type="submit" class="btn btn-primary" value="Submit"/></p>
+ </form>
+{% endblock %}
