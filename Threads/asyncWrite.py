@@ -1,7 +1,6 @@
 import threading
 import time
 
-
 class thread_WriteInFile(threading.Thread):
     def __init__(self, strToWrite, outFile):
         threading.Thread.__init__(self)
