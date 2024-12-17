@@ -1,0 +1,30 @@
+[
+    {
+        "firstName": "John",
+        "lastName": "Doe",
+        "gender": "male",
+        "email": "john.doe@example.com",
+        "roles": ["admin", "user"]
+    },
+    {
+        "firstName": "Jane",
+        "lastName": "Smith",
+        "gender": "female",
+        "email": "jane.smith@example.com",
+        "roles": ["user", "student"]
+    },
+    {
+        "firstName": "Emily",
+        "lastName": "Johnson",
+        "gender": "female",
+        "email": "emily.johnson@example.com",
+        "roles": ["user"]
+    },
+    {
+        "firstName": "Michael",
+        "lastName": "Brown",
+        "gender": "male",
+        "email": "michael.brown@example.com",
+        "roles": ["student"]
+    }
+]
