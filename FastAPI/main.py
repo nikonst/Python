@@ -35,6 +35,12 @@ async def fetchUsers():
 
 @app.post("/api/users")
 async def addUser(user: User):
-    print(user)
     db.append(user)
     return {"id":user.id}
+
+@app.delete("/api/users/delete/{userID}")
+async def deleteUser(userID: UUID):
+    for u in db:
+        if u.id == userID:
+            db.remove(u)
+            return
