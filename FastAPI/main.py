@@ -37,3 +37,4 @@ async def fetchUsers():
 async def addUser(user: User):
     print(user)
     db.append(user)
+    return {"id":user.id}
