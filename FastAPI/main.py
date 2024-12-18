@@ -16,7 +16,7 @@ db: List[User] = []
 for person in data:
     db.append(
         User( 
-         id = uuid4(),
+         id = person["id"],
          firstName = person["firstName"],
          lastName = person["lastName"],
          gender = person["gender"], # Gender.male,
@@ -32,3 +32,8 @@ async def root():
 @app.get("/api/users")
 async def fetchUsers():
     return db
+
+@app.post("/api/users")
+async def addUser(user: User):
+    print(user)
+    db.append(user)

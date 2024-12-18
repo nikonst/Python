@@ -1,5 +1,6 @@
 [
     {
+        "id": "42eea6ad-372a-40e3-a137-7955b4870373",
         "firstName": "John",
         "lastName": "Doe",
         "gender": "male",
@@ -7,6 +8,7 @@
         "roles": ["admin", "user"]
     },
     {
+        "id": "ff5b7cb1-ba36-43c0-83bd-a45f83b27e2b",
         "firstName": "Jane",
         "lastName": "Smith",
         "gender": "female",
@@ -14,6 +16,7 @@
         "roles": ["user", "student"]
     },
     {
+        "id": "0b2df126-11a4-458f-a830-1303c24f9967",
         "firstName": "Emily",
         "lastName": "Johnson",
         "gender": "female",
@@ -21,6 +24,7 @@
         "roles": ["user"]
     },
     {
+        "id": "0d8c8c8e-f6e6-4932-8a7e-a0202fbd34ef",
         "firstName": "Michael",
         "lastName": "Brown",
         "gender": "male",
