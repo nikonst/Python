@@ -18,3 +18,11 @@ class User(BaseModel):
     lastName: str
     gender: Gender
     roles: List[Role]
+
+class Author(BaseModel):
+    id: Optional[UUID] = uuid4()
+    firstName: str
+    lastName: str
+    gender: Gender
+    email: str
+    books: List[str]

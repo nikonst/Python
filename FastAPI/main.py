@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
-from model import User, Gender, Role
+from model import User, Author, Gender, Role
 from uuid import UUID, uuid4
 from datetime import datetime, timedelta
 
@@ -15,7 +15,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Open the JSON file
 with open('data/authors.json') as f:
-    data = json.load(f)
+    authors = json.load(f)
 
 # Function to create a JWT token
 def create_access_token(data: dict, expires_delta: timedelta = None):
@@ -30,17 +30,17 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 
 app = FastAPI()
 
-db: List[User] = []
+db: List[Author] = []
 
-for person in data:
+for person in authors:
     db.append(
-        User( 
+        Author( 
          id = person["id"],
          firstName = person["firstName"],
          lastName = person["lastName"],
          gender = person["gender"], # Gender.male,
          email = person["email"],
-         roles = person["roles"]
+         books = person["books"]
          )
     )
 
@@ -48,20 +48,20 @@ for person in data:
 async def root():
     return {"FastAPI":"Implementation"}
 
-@app.get("/api/users")
-async def fetchUsers():
+@app.get("/api/authors")
+async def fetchAuthors():
     return db
 
-@app.post("/api/users")
-async def addUser(user: User):
+@app.post("/api/authors")
+async def addAuthor(user: User):
     db.append(user)
     return {"id":user.id}
 
-@app.delete("/api/users/delete/{userID}")
-async def deleteUser(userID: UUID):
-    for u in db:
-        if u.id == userID:
-            db.remove(u)
+@app.delete("/api/authors/delete/{authorID}")
+async def deleteAuthor(authorID: UUID):
+    for a in db:
+        if a.id == authorID:
+            db.remove(a)
             return
     raise HTTPException(
         status_code=404,

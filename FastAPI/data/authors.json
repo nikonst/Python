@@ -5,7 +5,7 @@
         "lastName": "Doe",
         "gender": "male",
         "email": "john.doe@example.com",
-        "roles": ["admin", "user"]
+        "books": ["Who Can Kill a Child", "Dirty Pretty Things"]
     },
     {
         "id": "ff5b7cb1-ba36-43c0-83bd-a45f83b27e2b",
@@ -13,7 +13,7 @@
         "lastName": "Smith",
         "gender": "female",
         "email": "jane.smith@example.com",
-        "roles": ["user", "student"]
+        "books": ["Terrorist", "Closing the Ring"]
     },
     {
         "id": "0b2df126-11a4-458f-a830-1303c24f9967",
@@ -21,7 +21,7 @@
         "lastName": "Johnson",
         "gender": "female",
         "email": "emily.johnson@example.com",
-        "roles": ["user"]
+        "books": ["King Cobra"]
     },
     {
         "id": "0d8c8c8e-f6e6-4932-8a7e-a0202fbd34ef",
@@ -29,6 +29,6 @@
         "lastName": "Brown",
         "gender": "male",
         "email": "michael.brown@example.com",
-        "roles": ["student"]
+        "books": ["Children of the Secret State"]
     }
 ]
