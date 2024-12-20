@@ -4,9 +4,15 @@ from model import User, Gender, Role
 from uuid import UUID, uuid4
 
 import json
+import jwt
+
+# Secret key to encode and decode the JWT token
+SECRET_KEY = "your_secret_key"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Open the JSON file
-with open('data/data.json') as f:
+with open('data/authors.json') as f:
     data = json.load(f)
 
 app = FastAPI()
