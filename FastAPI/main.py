@@ -17,10 +17,10 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 with open('data/authors.json') as f:
     authors = json.load(f)
 
-db: List[Author] = []
+dbAuthors: List[Author] = []
 
-for person in authors:
-    db.append(
+for person in dbAuthors:
+    dbAuthors.append(
         Author( 
          id = person["id"],
          firstName = person["firstName"],
@@ -30,6 +30,7 @@ for person in authors:
          books = person["books"]
          )
     )
+
 
 # Function to create a JWT token
 def create_access_token(data: dict, expires_delta: timedelta = None):
@@ -46,26 +47,31 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 
 app = FastAPI()
 
+@app.get("/login")
+async def root():
+    return {"Login":"Implementation"}
+
+
 @app.get("/")
 async def root():
     return {"FastAPI":"Implementation"}
 
 @app.get("/api/authors")
 async def fetchAuthors():
-    return db
+    return dbAuthors
 
 @app.post("/api/authors")
 async def addAuthor(user: User):
-    db.append(user)
+    dbAuthors.append(user)
     return {"id":user.id}
 
 @app.delete("/api/authors/delete/{authorID}")
 async def deleteAuthor(authorID: UUID):
-    for a in db:
+    for a in dbAuthors:
         if a.id == authorID:
-            db.remove(a)
+            dbAuthors.remove(a)
             return
     raise HTTPException(
         status_code=404,
-        detail=f"User with id {userID} does not exist"
+        detail=f"User with id {authorID} does not exist"
     )
