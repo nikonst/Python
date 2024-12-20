@@ -21,6 +21,10 @@ class User(BaseModel):
     email: str
     gender: Gender
 
+class userLogin(BaseModel):
+    userName: str
+    password: str
+
 class Author(BaseModel):
     id: Optional[UUID] = uuid4()
     firstName: str

@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
-from model import User, Author, Gender, Role
+from model import User, Author, userLogin, Gender, Role
 from uuid import UUID, uuid4
 from datetime import datetime, timedelta
 
@@ -13,13 +13,13 @@ SECRET_KEY = secretKey.secret_key
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-# Open the JSON file
+# Open the JSON file for AUTHORS
 with open('data/authors.json') as f:
     authors = json.load(f)
 
 dbAuthors: List[Author] = []
 
-for person in dbAuthors:
+for person in authors:
     dbAuthors.append(
         Author( 
          id = person["id"],
@@ -28,6 +28,25 @@ for person in dbAuthors:
          gender = person["gender"], # Gender.male,
          email = person["email"],
          books = person["books"]
+         )
+    )
+
+# Open the JSON file for USERS
+with open('data/users.json') as f:
+    users = json.load(f)
+
+dbUsers: List[User] = []
+
+for u in users:
+    dbUsers.append(
+        User( 
+         id = u["id"],
+         userName = u["username"],
+         password = u["password"],
+         firstName = u["firstName"],
+         lastName = u["lastName"],
+         gender = u["gender"],
+         email = u["email"]
          )
     )
 
@@ -47,8 +66,10 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
 
 app = FastAPI()
 
-@app.get("/login")
-async def root():
+@app.post("/api/login")
+async def userLogin(u: userLogin):
+    print(u)
+    print(dbUsers)
     return {"Login":"Implementation"}
 
 
@@ -61,9 +82,9 @@ async def fetchAuthors():
     return dbAuthors
 
 @app.post("/api/authors")
-async def addAuthor(user: User):
-    dbAuthors.append(user)
-    return {"id":user.id}
+async def addAuthor(a: Author):
+    dbAuthors.append(a)
+    return {"id":a.id}
 
 @app.delete("/api/authors/delete/{authorID}")
 async def deleteAuthor(authorID: UUID):
