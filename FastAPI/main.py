@@ -17,19 +17,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 with open('data/authors.json') as f:
     authors = json.load(f)
 
-# Function to create a JWT token
-def create_access_token(data: dict, expires_delta: timedelta = None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
-
-app = FastAPI()
-
 db: List[Author] = []
 
 for person in authors:
@@ -43,6 +30,21 @@ for person in authors:
          books = person["books"]
          )
     )
+
+# Function to create a JWT token
+def create_access_token(data: dict, expires_delta: timedelta = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+# define APIs
+
+app = FastAPI()
 
 @app.get("/")
 async def root():
