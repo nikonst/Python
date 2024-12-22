@@ -14,7 +14,7 @@ class Role(str, Enum):
 
 class User(BaseModel):
     id: int
-    userName: str
+    username: str
     password: str
     firstName: str
     lastName: str
@@ -22,7 +22,7 @@ class User(BaseModel):
     gender: Gender
 
 class userLogin(BaseModel):
-    userName: str
+    username: str
     password: str
 
 class Author(BaseModel):

@@ -41,7 +41,7 @@ for u in users:
     dbUsers.append(
         User( 
          id = u["id"],
-         userName = u["username"],
+         username = u["username"],
          password = u["password"],
          firstName = u["firstName"],
          lastName = u["lastName"],
@@ -69,8 +69,11 @@ app = FastAPI()
 @app.post("/api/login")
 async def userLogin(u: userLogin):
     print(u)
-    print(dbUsers)
-    return {"Login":"Implementation"}
+    for usr in dbUsers:
+        if (u.username == usr.username):
+            if (u.password == usr.password):
+                return(usr)
+    return {"Msg":"User not found"}
 
 
 @app.get("/")
