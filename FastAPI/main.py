@@ -50,10 +50,10 @@ for u in users:
          )
     )
 
-
 # Function to create a JWT token
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
+    print("DATA", data)
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
@@ -63,7 +63,6 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     return encoded_jwt
 
 # define APIs
-
 app = FastAPI()
 
 @app.post("/api/login")
@@ -72,7 +71,8 @@ async def userLogin(u: userLogin):
     for usr in dbUsers:
         if (u.username == usr.username):
             if (u.password == usr.password):
-                return(usr)
+                access_token = create_access_token(data={"sub": usr.username})
+                return {"access_token": access_token, "token_type": "bearer"}
     return {"Msg":"User not found"}
 
 
