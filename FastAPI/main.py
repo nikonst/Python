@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from typing import List
 from model import User, Author, userLogin, Gender, Role
 from uuid import UUID, uuid4
 from datetime import datetime, timedelta
+from fastapi.security import OAuth2PasswordBearer
 
 import json
 import jwt
@@ -62,12 +63,41 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+# Dependency to get the current user from the token
+ # OAuth2 password flow
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    credentials_exception = HTTPException(
+        status_code=401,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+        return User(username=username)
+    except jwt.PyJWTError:
+        raise credentials_exception
+    
 # define APIs
 app = FastAPI()
 
 @app.post("/api/login")
 async def userLogin(u: userLogin):
     print(u)
+    for usr in dbUsers:
+        if (u.username == usr.username):
+            if (u.password == usr.password):
+                access_token = create_access_token(data={"sub": usr.username})
+                return {"access_token": access_token, "token_type": "bearer"}
+    return {"Msg":"User not found"}
+
+@app.post("/api/login/token")
+async def userLogin(u: userLogin):
+
     for usr in dbUsers:
         if (u.username == usr.username):
             if (u.password == usr.password):
