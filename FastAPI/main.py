@@ -1,5 +1,5 @@
-from fastapi import FastAPI, HTTPException, Depends
-from typing import List
+from fastapi import FastAPI, HTTPException, Depends, Header, Request
+from typing import List, Optional
 from model import User, Author, userLogin, Gender, Role
 from uuid import UUID, uuid4
 from datetime import datetime, timedelta
@@ -95,16 +95,10 @@ async def userLogin(u: userLogin):
                 return {"access_token": access_token, "token_type": "bearer"}
     return {"Msg":"User not found"}
 
-@app.post("/api/login/token")
-async def userLogin(u: userLogin):
-
-    for usr in dbUsers:
-        if (u.username == usr.username):
-            if (u.password == usr.password):
-                access_token = create_access_token(data={"sub": usr.username})
-                return {"access_token": access_token, "token_type": "bearer"}
-    return {"Msg":"User not found"}
-
+@app.get("/api/login/token")
+async def getToken(request: Request):
+    my_auth = request.headers.get('Authorization')
+    return {"token": my_auth}
 
 @app.get("/")
 async def root():
