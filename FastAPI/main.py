@@ -100,9 +100,14 @@ async def getToken(request: Request):
     my_auth = request.headers.get('Authorization')
     if not my_auth:
         return {"No Auth":"No Auth Header"}
-    payload = jwt.decode(my_auth[7:], SECRET_KEY, algorithms=[ALGORITHM])
-    print(payload)
-    return {"OK": "token valid"}
+    try:
+        payload = jwt.decode(my_auth[7:], SECRET_KEY, algorithms=[ALGORITHM])
+        print(payload)
+        return {"OK": "token valid"}
+    except:
+        print("ERROR")
+        return {"Not OK": "Invalid token"}
+    
 
 @app.get("/")
 async def root():
