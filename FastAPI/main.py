@@ -98,6 +98,10 @@ async def userLogin(u: userLogin):
 @app.get("/api/login/token")
 async def getToken(request: Request):
     my_auth = request.headers.get('Authorization')
+    print(my_auth)
+    print(my_auth[7:])
+    payload = jwt.decode(my_auth[7:], SECRET_KEY, algorithms=[ALGORITHM])
+    print(payload)
     return {"token": my_auth}
 
 @app.get("/")
