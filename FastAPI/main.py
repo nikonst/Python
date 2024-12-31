@@ -7,8 +7,8 @@ from fastapi.security import OAuth2PasswordBearer
 
 import json
 import jwt
-
 import secretKey
+
 # Secret key to encode and decode the JWT token
 SECRET_KEY = secretKey.secret_key
 ALGORITHM = "HS256"
@@ -54,17 +54,16 @@ for u in users:
 # Function to create a JWT token
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
-    print("DATA", data)
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
+    to_encode.update({"expire": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
 # Dependency to get the current user from the token
- # OAuth2 password flow
+# OAuth2 password flow
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
@@ -87,11 +86,10 @@ app = FastAPI()
 
 @app.post("/api/login")
 async def userLogin(u: userLogin):
-    print(u)
     for usr in dbUsers:
         if (u.username == usr.username):
             if (u.password == usr.password):
-                access_token = create_access_token(data={"sub": usr.username})
+                access_token = create_access_token(data={"user": usr.username})
                 return {"access_token": access_token, "token_type": "bearer"}
     return {"Msg":"User not found"}
 
@@ -99,15 +97,15 @@ async def userLogin(u: userLogin):
 async def getToken(request: Request):
     my_auth = request.headers.get('Authorization')
     if not my_auth:
-        return {"No Auth":"No Auth Header"}
+        raise HTTPException(status_code=401, detail="Unauthorized")
+        #return {"No Auth":"No Auth Header"}
     try:
         payload = jwt.decode(my_auth[7:], SECRET_KEY, algorithms=[ALGORITHM])
         print(payload)
-        return {"OK": "token valid"}
+        return {"OK": "Valid token"}
     except:
-        print("ERROR")
-        return {"Not OK": "Invalid token"}
-    
+        raise HTTPException(status_code=498, detail="Ivalid Token")
+        #return {"Not OK": "Invalid token"}
 
 @app.get("/")
 async def root():
