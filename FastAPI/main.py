@@ -119,7 +119,8 @@ async def fetchAuthors():
 
 #Protected api route
 @app.post("/api/authors")
-async def addAuthor(a: Author):
+async def addAuthor(a: Author, request: Request):
+    print(request.headers.get('Authorization'))
     dbAuthors.append(a)
     return {"id":a.id}
 
