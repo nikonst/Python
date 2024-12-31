@@ -102,7 +102,7 @@ async def getToken(request: Request):
     try:
         payload = jwt.decode(my_auth[7:], SECRET_KEY, algorithms=[ALGORITHM])
         print(payload)
-        return {"OK": "Valid token"}
+        return {"200": "Valid token"}
     except:
         raise HTTPException(status_code=498, detail="Ivalid Token")
         #return {"Not OK": "Invalid token"}
@@ -125,7 +125,7 @@ async def deleteAuthor(authorID: UUID):
     for a in dbAuthors:
         if a.id == authorID:
             dbAuthors.remove(a)
-            return
+            return {"detail" : "Author removed"}
     raise HTTPException(
         status_code=404,
         detail=f"User with id {authorID} does not exist"
