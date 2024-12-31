@@ -112,15 +112,18 @@ async def getToken(request: Request):
 async def root():
     return {"FastAPI":"Implementation"}
 
+#Open api route
 @app.get("/api/authors")
 async def fetchAuthors():
     return dbAuthors
 
+#Protected api route
 @app.post("/api/authors")
 async def addAuthor(a: Author):
     dbAuthors.append(a)
     return {"id":a.id}
 
+#Protected api route
 @app.delete("/api/authors/delete/{authorID}")
 async def deleteAuthor(authorID: UUID):
     for a in dbAuthors:
