@@ -81,7 +81,16 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         return User(username=username)
     except jwt.PyJWTError:
         raise credentials_exception
-    
+
+async def checkTokenValidation(token):
+    try:
+        payload = jwt.decode(token[7:], SECRET_KEY, algorithms=[ALGORITHM])
+        #print(payload)
+        if payload:
+            return True
+    except jwt.PyJWTError:
+        return False 
+
 # define APIs
 app = FastAPI()
 
@@ -120,9 +129,19 @@ async def fetchAuthors():
 #Protected api route
 @app.post("/api/authors")
 async def addAuthor(a: Author, request: Request):
-    print(request.headers.get('Authorization'))
-    dbAuthors.append(a)
-    return {"id":a.id}
+    if not a:
+        raise HTTPException(status_code=204, detail="No content sent with the request")
+    checkAuth = request.headers.get('Authorization')
+    print(checkAuth)
+    if not checkAuth:
+       raise HTTPException(status_code=401, detail="Unauthorized")
+    tokenValid = await checkTokenValidation(checkAuth)
+    print("tokenValid", tokenValid)
+    if tokenValid == True:
+        dbAuthors.append(a)
+        return {"id":a.id}
+    else:
+         raise HTTPException(status_code=498, detail="Ivalid Token")
 
 #Protected api route
 @app.delete("/api/authors/delete/{authorID}")
