@@ -132,11 +132,9 @@ async def addAuthor(a: Author, request: Request):
     if not a:
         raise HTTPException(status_code=204, detail="No content sent with the request")
     checkAuth = request.headers.get('Authorization')
-    print(checkAuth)
     if not checkAuth:
        raise HTTPException(status_code=401, detail="Unauthorized")
     tokenValid = await checkTokenValidation(checkAuth)
-    print("tokenValid", tokenValid)
     if tokenValid == True:
         dbAuthors.append(a)
         return {"id":a.id}
@@ -145,12 +143,21 @@ async def addAuthor(a: Author, request: Request):
 
 #Protected api route
 @app.delete("/api/authors/delete/{authorID}")
-async def deleteAuthor(authorID: UUID):
-    for a in dbAuthors:
-        if a.id == authorID:
-            dbAuthors.remove(a)
-            return {"detail" : "Author removed"}
-    raise HTTPException(
-        status_code=404,
-        detail=f"User with id {authorID} does not exist"
-    )
+async def deleteAuthor(authorID: UUID, request: Request):
+    checkAuth = request.headers.get('Authorization')
+    if not checkAuth:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    tokenValid = await checkTokenValidation(checkAuth)
+    if tokenValid == True:
+        for a in dbAuthors:
+            print(a.id)
+            print(authorID)
+            if a.id == authorID:
+                dbAuthors.remove(a)
+                return {"detail" : "Author removed"}
+        raise HTTPException(
+            status_code=404,
+            detail=f"User with id {authorID} does not exist"
+        )
+    else:
+        raise HTTPException(status_code=498, detail="Ivalid Token")
